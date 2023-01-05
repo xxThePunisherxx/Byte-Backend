@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose')
 const authRoute = require('./routes/trainingRoute.js')
+const catRoute = require('./routes/categoryRoute.js')
 
 
 const app = express()
@@ -20,3 +21,4 @@ app.listen(8800, ()=>{
 
 // route
 app.use('/training', authRoute)
+app.use('/category', catRoute)
