@@ -54,7 +54,8 @@ const deleteCategory = async(req,res)=>{
 
 // update the category
 const updateCategory = async(req,res)=>{
- const category = Category.findByIdAndUpdate(req.params.id,
+    
+ const category = await Category.findByIdAndUpdate(req.params.id,
    req.body, {new:true}
  )
  if(!category)
