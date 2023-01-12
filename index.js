@@ -1,22 +1,36 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const cors = require('cors')
 const authRoute = require('./routes/trainingRoute.js')
+const catRoute = require('./routes/categoryRoute.js')
 
+const PORT = process.env.PORT || 8080
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 // database connection
 mongoose.set('strictQuery', true)
-const db = "mongodb+srv://backend:backend123@cluster0.vlchgdj.mongodb.net/?retryWrites=true&w=majority"
-// const db = 'mongodb://localhost:27017/backend' 
+// const db = "mongodb+srv://backend:backend123@cluster0.vlchgdj.mongodb.net/?retryWrites=true&w=majority"
 
-mongoose.connect(db).then(()=>{console.log(`connection successful`)})
-.catch((err)=>console.log(err))
 
-app.listen(8800, ()=>{
+const db = "mongodb://127.0.0.1:27017/login"
+mongoose.set("strictQuery",true)
+mongoose.connect(db, {useNewUrlParser:true,
+useUnifiedTopology:true}).then(()=>{
+    console.log("connected successfully")
+}).catch((err)=>{
+    console.log(err)
+})
+
+app.listen(PORT, ()=>{
   console.log('server connected')
 })
 
 // route
-app.use('/training', authRoute)
+app.get('/', (req,res)=>{
+  res.send("Homepage")
+})
+app.use('/api/training', authRoute)
+app.use('/api/category', catRoute)

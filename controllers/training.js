@@ -1,11 +1,12 @@
-const Training = require('../models/Training.js')
 
+const Training = require('../models/Training.js')
 
 
  const createTraining = async(req,res,next)=>{
     const newTraining = new Training(req.body)
     try{
      const savedTraining = await newTraining.save()
+    
      res.status(200).json(savedTraining)
     }catch(err){
        next(err)
@@ -34,6 +35,8 @@ const Training = require('../models/Training.js')
 
  const getTraining = async(req,res,next)=>{
     try{
+        console.log('params')
+        console.log(req.params.id)
         const training = await Training.findById(req.params.id);
          res.status(200).json(training)
      }catch(err){
@@ -43,8 +46,7 @@ const Training = require('../models/Training.js')
 
  const getAllTraining = async(req,res,next)=>{
     try{
-        const training = await Training.find()
-        // .populate({path:'category'})
+        const training = await Training.find() 
         res.status(200).json(training)
         }catch(err){
             next(err)
