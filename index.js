@@ -1,11 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const cors = require('cors')
 const authRoute = require('./routes/trainingRoute.js')
 const catRoute = require('./routes/categoryRoute.js')
 
+const PORT = process.env.PORT || 8080
 
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 // database connection
 mongoose.set('strictQuery', true)
@@ -21,10 +24,13 @@ useUnifiedTopology:true}).then(()=>{
     console.log(err)
 })
 
-app.listen(8800, ()=>{
+app.listen(PORT, ()=>{
   console.log('server connected')
 })
 
 // route
-app.use('/training', authRoute)
-app.use('/category', catRoute)
+app.get('/', (req,res)=>{
+  res.send("Homepage")
+})
+app.use('/api/training', authRoute)
+app.use('/api/category', catRoute)

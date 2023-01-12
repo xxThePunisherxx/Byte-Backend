@@ -13,17 +13,25 @@ const TrainingSchema = new mongoose.Schema({
     required: true,
   },
   duration: {
-    type: Number,
+    type: String,
     required: true,
   },
   priority: {
     type: Number,
     min: 1,
     max: 10,
+    required:true,
+  },
+
+  image:{
+    type:String,
+    required:true,
   },
   category:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Category,
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: Category,
+    type:String,
+    required:true,
   }
 
 },{timestamps:true});
