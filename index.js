@@ -12,10 +12,10 @@ app.use(cors())
 
 // database connection
 mongoose.set('strictQuery', true)
-// const db = "mongodb+srv://backend:backend123@cluster0.vlchgdj.mongodb.net/?retryWrites=true&w=majority"
+const db = "mongodb+srv://admin111:admin111@cluster0.nwjdauv.mongodb.net/?retryWrites=true&w=majority"
 
 
-const db = "mongodb://127.0.0.1:27017/login"
+// const db = "mongodb://127.0.0.1:27017/login"
 mongoose.set("strictQuery",true)
 mongoose.connect(db, {useNewUrlParser:true,
 useUnifiedTopology:true}).then(()=>{
