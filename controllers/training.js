@@ -1,17 +1,36 @@
 
+const Category = require('../models/Category.js')
 const Training = require('../models/Training.js')
 
 
- const createTraining = async(req,res,next)=>{
-    const newTraining = new Training(req.body)
-    try{
-     const savedTraining = await newTraining.save()
-    
-     res.status(200).json(savedTraining)
-    }catch(err){
-       next(err)
-    }
+
+// add traning course
+ const addTraining = async(req,res)=>{
+  
+    // validate the category id
+    const category = await Category.findById(req.body.category)
+    if(!category) 
+
+    return res.status(400).send('Invalid Category')
+
+
+    const training = new Training({
+       title: req.body.title,
+       description: req.body.description,
+       duration: req.body.duration,
+       priority: req.body.priority,
+       image: req.body.image,
+       rating: req.body.rating,
+       category:req.body.category
+    })
+    await training.save()
+if(!training)
+return res.status(500).send('The training cannot be created')
+
+return res.status(201).send(training)
 }
+
+
 
 
  const updateTraining = async(req,res,next)=>{
@@ -54,10 +73,11 @@ const Training = require('../models/Training.js')
 }
 
 module.exports = {
-    createTraining,
+    addTraining,
     updateTraining,
     deleteTraining,
     getTraining,
-    getAllTraining
+    getAllTraining,
+  
 
 }
