@@ -4,6 +4,44 @@ const Training = require('../models/Training.js')
 
 
 
+// get training list
+const getAllTraining = async(req,res)=>{
+    const trainingList = await Training.find()
+   
+
+    if(!trainingList){
+        res.status(500).json({success:false})
+    }
+    res.send(trainingList)
+}
+
+
+// get training by specify
+const getTrainingBySpecify = async(req,res)=>{
+    const trainingList = await Training.find().select('title image -_id');
+
+    if(!trainingList){
+        res.status(500).json({success:false})
+    }
+    res.send(trainingList)
+}
+
+
+
+// get training list by id
+const getTraining = async(req,res)=>{
+   
+    const training = await Training.findById(req.params.id);
+
+    if(!training){
+        res.status(500).json({success:false})
+    }
+    res.send(training)  
+    
+}
+
+
+
 // add traning course
  const addTraining = async(req,res)=>{
   
@@ -52,32 +90,16 @@ return res.status(201).send(training)
         }
 }
 
- const getTraining = async(req,res,next)=>{
-    try{
-        console.log('params')
-        console.log(req.params.id)
-        const training = await Training.findById(req.params.id);
-         res.status(200).json(training)
-     }catch(err){
-         next(err)
-     }
-}
 
- const getAllTraining = async(req,res,next)=>{
-    try{
-        const training = await Training.find() 
-        res.status(200).json(training)
-        }catch(err){
-            next(err)
-        }
-}
+
 
 module.exports = {
     addTraining,
-    updateTraining,
-    deleteTraining,
     getTraining,
     getAllTraining,
-  
+    getTrainingBySpecify,
+    updateTraining,
+    deleteTraining,
+    
 
 }
