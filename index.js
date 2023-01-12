@@ -9,11 +9,17 @@ app.use(express.json())
 
 // database connection
 mongoose.set('strictQuery', true)
-const db = "mongodb+srv://backend:backend123@cluster0.vlchgdj.mongodb.net/?retryWrites=true&w=majority"
-// const db = 'mongodb://localhost:27017/backend' 
+// const db = "mongodb+srv://backend:backend123@cluster0.vlchgdj.mongodb.net/?retryWrites=true&w=majority"
 
-mongoose.connect(db).then(()=>{console.log(`connection successful`)})
-.catch((err)=>console.log(err))
+
+const db = "mongodb://127.0.0.1:27017/login"
+mongoose.set("strictQuery",true)
+mongoose.connect(db, {useNewUrlParser:true,
+useUnifiedTopology:true}).then(()=>{
+    console.log("connected successfully")
+}).catch((err)=>{
+    console.log(err)
+})
 
 app.listen(8800, ()=>{
   console.log('server connected')

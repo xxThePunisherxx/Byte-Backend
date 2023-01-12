@@ -35,6 +35,8 @@ const Training = require('../models/Training.js')
 
  const getTraining = async(req,res,next)=>{
     try{
+        console.log('params')
+        console.log(req.params.id)
         const training = await Training.findById(req.params.id);
          res.status(200).json(training)
      }catch(err){
