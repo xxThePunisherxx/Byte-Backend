@@ -7,6 +7,7 @@ const catRoute = require('./routes/categoryRoute.js')
 const PORT = process.env.PORT || 8080
 
 const app = express()
+app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cors())
 

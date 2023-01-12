@@ -25,13 +25,19 @@ const TrainingSchema = new mongoose.Schema({
 
   image:{
     type:String,
-    // required:true,
+    default: ""
   },
+  images:[{type:String}],
+
   category:{
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: Category,
-    type:String,
-    // required:true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref:' Category',
+    required:true,
+   
+  },
+  rating:{
+    type:Number,
+    default:0,
   }
 
 },{timestamps:true});
