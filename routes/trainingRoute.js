@@ -1,12 +1,13 @@
 const {Router} = require('express')
-const {addTraining, updateTraining, deleteTraining, getTraining, getAllTraining, getTrainingBySpecify} = require('../controllers/training.js')
+
+const {addTraining, updateTraining, deleteTraining, getTraining, getAllTraining} = require('../controllers/training.js')
 
 
 const router = Router()
 
 router.get('/', getAllTraining)
 router.get('/:id', getTraining)
-router.get('/', getTrainingBySpecify)
+// router.get('/', getTrainingBySpecify)
 
 //   //TODO:
      
