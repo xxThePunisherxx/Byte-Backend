@@ -12,7 +12,7 @@ router.get('/:id', getTraining)
 //   //TODO:
      
 
-router.post('/', addTraining)
+router.post('/add', addTraining)
 router.put('/update/:id', updateTraining)
 router.delete('/delete/:id', deleteTraining)
 

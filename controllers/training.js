@@ -21,6 +21,7 @@ const getAllTraining = async(req,res)=>{
 const getTraining = async(req,res)=>{
    
     const training = await Training.findById(req.params.id)
+    .populate({path:'category'})
     
 
     if(!training){
@@ -61,6 +62,7 @@ const getTraining = async(req,res)=>{
        title: req.body.title,
        description: req.body.description,
        duration: req.body.duration,
+       career:req.body.career,
        priority: req.body.priority,
        image: req.body.image,
        rating: req.body.rating,
