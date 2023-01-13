@@ -6,7 +6,8 @@ const Training = require('../models/Training.js')
 
 // get training list
 const getAllTraining = async(req,res)=>{
-    const trainingList = await Training.find().populate('category')
+    const trainingList = await Training.find()
+    .populate({path:'category'})
    
 
     if(!trainingList){
@@ -77,21 +78,37 @@ return res.status(201).send(training)
 // update training
 const updateTraining = async(req,res)=>{
     
-    const training = await Training.findByIdAndUpdate(req.params.id,
-      req.body, {new:true}
+    const training = await Training.findByIdAndUpdate(req.params.id, req.body, {new:true}
     )
     if(!training)
     return res.status(400).send("Training cannot be updated")
    
     res.send(training)
    }
- const deleteTraining = async(req,res,next)=>{
-    try{
-        await Training.findByIdAndDelete(req.params.id)
-        res.status(200).json("Training course deleted successfully")
-        }catch(err){
-           next(err)
+
+
+//  const deleteTraining = async(req,res,next)=>{
+//     try{
+//         await Training.findByIdAndDelete(req.params.id)
+//         res.status(200).json("Training course deleted successfully")
+//         }catch(err){
+//            next(err)
+//         }
+// }
+
+
+//delete training
+const deleteTraining = async(req,res)=>{
+    Training.findByIdAndRemove(req.params.id)
+    .then(training=>{
+        if(training){
+            return res.status(201).json({success:true, message:"the training successfully deleted"})
+        }else{
+            return res.status(404).json({success:false, message:"training could not found"})
         }
+    }).catch(err=>{
+        return res.status(404).json({success:false, error:err})
+    })
 }
 
 
