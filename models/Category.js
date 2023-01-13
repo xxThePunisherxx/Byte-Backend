@@ -3,7 +3,7 @@ const CategorySchema = new mongoose.Schema({
   //Schema
    _id:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Training"
+        
     },
 
     course_type:{
