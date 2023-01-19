@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const CategorySchema = new mongoose.Schema({
   //Schema
-   _id:{
-        type:mongoose.Schema.Types.ObjectId,
+//    _id:{
+//         type:mongoose.Schema.Types.ObjectId,
         
-    },
+//     },
 
     course_type:{
         type:String,

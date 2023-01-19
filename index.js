@@ -1,14 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const cookieParser = require("cookie-parser")
+const bodyParser = require("body-parser");
 const cors = require('cors')
-const authRoute = require('./routes/trainingRoute.js')
-const catRoute = require('./routes/categoryRoute.js')
+
+
+const productRoute = require('./routes/productRoute.js')
+const categoryRoute = require('./routes/categoryRoute.js')
+const userRoute = require('./routes/userRoute.js')
+
+const errorMiddleware = require('./middleware/error.js')
 
 const PORT = process.env.PORT || 8080
 
 const app = express()
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
 
 // database connection
@@ -33,5 +42,12 @@ app.listen(PORT, ()=>{
 app.get('/', (req,res)=>{
   res.send("Homepage")
 })
-app.use('/api/training', authRoute)
-app.use('/api/category', catRoute)
+
+
+app.use('/api/product', productRoute)
+app.use('/api/category', categoryRoute)
+app.use('/api/user', userRoute)
+
+
+// middleware
+app.use(errorMiddleware)
