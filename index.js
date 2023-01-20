@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const cors = require('cors')
 
 
-const productRoute = require('./routes/productRoute.js')
+const trainingRoute = require('./routes/trainingRoute.js')
 const categoryRoute = require('./routes/categoryRoute.js')
 const userRoute = require('./routes/userRoute.js')
 
@@ -44,7 +44,7 @@ app.get('/', (req,res)=>{
 })
 
 
-app.use('/api/product', productRoute)
+app.use('/api/training', trainingRoute)
 app.use('/api/category', categoryRoute)
 app.use('/api/user', userRoute)
 

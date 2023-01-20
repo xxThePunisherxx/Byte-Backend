@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Category = require('./Category.js')
 
 
-const ProductSchema = new mongoose.Schema({
+const TrainingSchema = new mongoose.Schema({
   //Schema
   title: {
     type: String,
@@ -83,5 +83,5 @@ const ProductSchema = new mongoose.Schema({
 
 
 
-const Product = new mongoose.model('Product', ProductSchema);
-module.exports = Product;
+const Training = new mongoose.model('Training', TrainingSchema);
+module.exports = Training;
