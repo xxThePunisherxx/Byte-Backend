@@ -14,7 +14,7 @@ const createTraining = catchAsyncErrors(
         return res.status(400).json({success:false, category})
 
         const training = await Training.create(req.body);
-        res.status(201).json({success:true, training})
+        res.status(201).json({training})
     }
 )
 
@@ -30,7 +30,7 @@ const getAllTraining = catchAsyncErrors(
 
     const training = await Training.find().populate({ path: 'category' })
 
-    res.status(201).json({success:true, training})
+    res.status(201).json({training})
   }
 )
 
@@ -42,9 +42,9 @@ const getTrainingByid = catchAsyncErrors(
 
         if(!trainings)
     
-        return next(new ErrorHandler("Product not found", 404 ))
+        return next(new ErrorHandler("training not found", 404 ))
     
-        res.status(201).json({success:true, trainings})
+        res.status(201).json({trainings})
     
     }
 )
@@ -62,7 +62,7 @@ const updateTraining = catchAsyncErrors(
         }
         training = await Training.findByIdAndUpdate(req.params.id, req.body, {new:true, useFindAndModify:false})
         
-        res.status(201).json({success:true, training})
+        res.status(201).json({training})
     }
     
 )
@@ -80,7 +80,7 @@ const deleteTraining = catchAsyncErrors(
         }
         training = await Training.findByIdAndRemove(req.params.id, req.body)
         
-        res.status(201).json({success:true, message:"training deleted successfully"})
+        res.status(201).json({message:"training deleted successfully"})
     }
     
 )
