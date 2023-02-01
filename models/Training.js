@@ -20,6 +20,13 @@ const TrainingSchema = new mongoose.Schema({
     required: true,
   },
 
+
+  syllabus:{
+    type:String,
+    required:true,
+  },
+
+
   duration: {
     type: String,
     required: true,
@@ -32,26 +39,26 @@ const TrainingSchema = new mongoose.Schema({
     required: true,
   },
 
-  // image:{
-  //   type:String,
-  //   default: ""
-  // },
+  image:{
+    type:String,
+    default: ""
+  },
 
   // images:[{type:String}],
 
-  images: [
-    {
-      public_id: {
-        type: String,
-        required: true,
-      },
+  // images: [
+  //   {
+  //     public_id: {
+  //       type: String,
+  //       required: true,
+  //     },
 
-      url: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
+  //     url: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //   },
+  // ],
 
   category: {
     type: mongoose.Schema.Types.ObjectId,
