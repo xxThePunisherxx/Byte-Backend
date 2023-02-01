@@ -1,5 +1,5 @@
 const express = require('express');
-const { createTraining, getAllTraining, getTrainingByid, updateTraining, deleteTraining } = require('../controllers/trainingcontoller.js');
+const { createTraining, getAllTraining, getTrainingByid, updateTraining, deleteTraining, createTrainingReview } = require('../controllers/trainingcontoller.js');
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth.js');
 
@@ -13,7 +13,7 @@ router.get('/:id', getTrainingByid)
 router.put('/update/:id', isAuthenticatedUser, updateTraining)
 router.delete('/delete/:id',isAuthenticatedUser ,deleteTraining)
 
-
+router.put('/review', isAuthenticatedUser, createTrainingReview)
 
 module.exports = router
 

@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const cookieParser = require("cookie-parser")
 const bodyParser = require("body-parser");
 const cors = require('cors')
+require('dotenv').config();
 
 
 const trainingRoute = require('./routes/trainingRoute.js')

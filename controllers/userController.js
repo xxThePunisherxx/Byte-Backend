@@ -5,7 +5,8 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors.js');
 const sendToken = require('../utils/jwtToken.js');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
-
+const sendEmail = require('../utils/sendEmail.js')
+const crypto = require('crypto')
 
 // // register user
 const registerUser = catchAsyncErrors(
@@ -64,46 +65,85 @@ res.cookie("token", null,{
 })
 
 
-// // Forgot Password
-// const forgotPassword = catchAsyncErrors(async (req, res, next) => {
-//     const user = await User.findOne({ email: req.body.email });
-  
-//     if (!user) {
-//       return next(new ErrorHandler("User not found", 404));
-//     }
-  
-//     // Get ResetPassword Token
-//     const resetToken = user.getResetPasswordToken();
-  
-//     await user.save({ validateBeforeSave: false });
-  
-//     const resetPasswordUrl = `${req.protocol}://${req.get(
-//       "host"
-//     )}/password/reset/${resetToken}`;
-  
-//     const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
-  
-//     try {
-//       await sendEmail({
-//         email: user.email,
-//         subject: `Ecommerce Password Recovery`,
-//         message,
-//       });
-  
-//       res.status(200).json({
-//         success: true,
-//         message: `Email sent to ${user.email} successfully`,
-//       });
-//     } catch (error) {
-//       user.resetPasswordToken = undefined;
-//       user.resetPasswordExpire = undefined;
-  
-//       await user.save({ validateBeforeSave: false });
-  
-//       return next(new ErrorHandler(error.message, 500));
-//     }
-//   });
+// forget password
+const forgotPassword = catchAsyncErrors(async(req,res,next)=>{
+  const user = await User.findOne({email:req.body.email});
+  console.log(user)
 
+  if(!user){
+    return next(new ErrorHandler("User not found",404));
+  }
+
+    // Get reset Password token
+    const resetToken = user.getResetPasswordToken();
+
+    await user.save({validateBeforeSave:false});
+    const resetPasswordUrl = `${req.protocol}://${req.get(
+      "host"
+    )}/api/user/password/reset/${resetToken}`;
+
+    console.log(resetPasswordUrl)
+
+    const message = `Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this email then, please ignore it.`;
+
+    try{
+
+      await sendEmail({
+       email:user.email,
+       subject: ` Password Recovery`,
+       message,
+
+      });
+
+      res.status(200).json({
+        success:true,
+        message:`Email sent to ${user.email} successfully`
+      })
+
+    }catch(error){
+      console.log(error)
+      user.getResetPasswordToken= undefined;
+      user.resetPasswordExpire = undefined;
+
+      await user.save({validateBeforeSave:false})
+      return next(new ErrorHandler(error.message, 500))
+    }
+})
+
+
+// reset Password
+ const resetPassword = catchAsyncErrors(async(req,res,next)=>{
+  const {token:resetToken} = req.params;
+  // creating hash token
+  const resetPasswordToken = crypto
+  .createHash("sha256")
+  .update(resetToken)
+  .digest("hex");
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire:{$gt:Date.now()},
+  })
+
+
+  if(!user){
+    return next(new ErrorHandler("Reset Password Token is invalid or has been expired",404))
+  }
+
+if(req.body.password !== req.body.confirmPassword){
+  return next(new ErrorHandler("Password does not updated",400))
+}
+
+user.password = req.body.password;
+user.resetPasswordToken = undefined;
+user.resetPasswordExpire = undefined;
+
+await user.save()
+
+const savedUser = await User.findOne({_id: user._id}, '-password')
+
+sendToken(savedUser, 201, res )
+})
 
   // Get User Detail
 const getUserDetails = catchAsyncErrors(async (req, res, next) => {
@@ -115,26 +155,30 @@ const getUserDetails = catchAsyncErrors(async (req, res, next) => {
     });
   });
 
+
 //  upadate password
 const updatePassword = catchAsyncErrors(async (req, res, next) => {
-    const user = await User.findById(req.user.id).select("+password");
+  console.log(req.body)
+  const user = await User.findById(req.user.id).select("+password");
+
+  const isPasswordMatched = await bcrypt.compare(req.body.oldPassword, user.password);
+
+  if (!isPasswordMatched) {
+    return next(new ErrorHandler("Old password is incorrect", 400));
+  }
+
+  if (req.body.newPassword !== req.body.confirmPassword) {  
+    return next(new ErrorHandler("password does not match", 400));
+  }
+
+  user.password = req.body.newPassword;
+
+  await user.save();
+
+  sendToken(user, 200, res);
+});
+
   
-    const isPasswordMatched = await bcrypt.compare(req.body.oldPassword, user.password);
-  
-    if (!isPasswordMatched) {
-      return next(new ErrorHandler("Old password is incorrect", 400));
-    }
-  
-    if (req.body.newPassword !== req.body.confirmPassword) {  
-      return next(new ErrorHandler("password does not match", 400));
-    }
-  
-    user.password = req.body.newPassword;
-  
-    await user.save();
-  
-    sendToken(user, 200, res);
-  });
   
 
 //   // Get all users(admin)
@@ -185,7 +229,7 @@ const updateUserRole = catchAsyncErrors(async (req, res, next) => {
   });
 
 
-//   // Delete User --Admin
+ // Delete User --Admin
 const deleteUser = catchAsyncErrors(async (req, res, next) => {
   User.findByIdAndDelete(req.params.id, function (err, user) {
     if (err){
@@ -207,7 +251,8 @@ module.exports = {
     registerUser,
     loginUser,
     logoutUser,
-    // forgotPassword,
+    forgotPassword,
+    resetPassword,
     getUserDetails,
     updatePassword,
     getAllUser,

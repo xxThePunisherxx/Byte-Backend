@@ -4,11 +4,12 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors.js');
 const Category = require('../models/Category.js');
 // const ApiFeatures = require('../utils/apiFeatures.js')
 
+
 // create training -- admin
 const createTraining = catchAsyncErrors(
 
     async(req, res, next)=>{
-        // req.body.user = req.user.id;
+        req.body.user = req.user.id;
         const category = await Category.findById(req.body.category);
         if(!category)
         return res.status(400).json({success:false, category})
@@ -25,12 +26,9 @@ const getAllTraining = catchAsyncErrors(
 
  async(req, res)=>{
 
-    // for query features;
-    // const apiFeatures = new ApiFeatures(Product.find(), req.query).search().filter()
-
     const training = await Training.find().populate({ path: 'category' })
 
-    res.status(201).json({training})
+    res.status(201).json({sucess:true, training})
   }
 )
 
@@ -87,23 +85,49 @@ const deleteTraining = catchAsyncErrors(
 
 
 //create New review or update the review
-// const createProductReview = catchAsyncErrors(async(req,res, next)=>{
-//     const {rating, comment, productID} = req.body;
+const createTrainingReview = catchAsyncErrors(async(req,res,next)=>{
 
-//     const review ={
-//         user:req.user._id,
-//         name:req.user.name,
-//         rating: Number(rating), comment,
-//     };
 
-//     const product = await Product.findById(productID);
+    const{rating, comment, trainingId} = req.body
     
-//     if(isReviewed){
-//         const isReviewed = product.reviews.find(rev=>rev.user)
-//     }else{
-//         product.reviews.push(review)
-//     }
-// }) 
+    const review = {
+      user:req.user._id,
+      name:req.user.name,
+      rating:Number(rating),
+      comment,
+    }
+    
+    // finding the product
+    const training = await Training.findById(trainingId)
+    
+    
+    // is review done already
+    
+    const isReviewed = training.reviews.find(rev=> rev.user.toString()=== req.user._id.toString())
+    
+    if(isReviewed){
+      training.reviews.forEach(rev=>{
+        rev.rating=rating,
+        rev.comment=comment
+      })
+    
+    }else{
+      training.reviews.push(review);
+      training.numOfReviews = training.reviews.length
+    }
+    // updating rating of products
+    let avg = 0
+     training.reviews.forEach(rev=>{
+      avg+= rev.rating
+    })
+    
+    training.ratings =avg/training.reviews.length;
+    
+    await training.save({validateBeforeSave:false});
+    
+    res.status(200).json({success:true, })
+    
+    })
 
 
 
@@ -112,5 +136,6 @@ module.exports ={
     getAllTraining,
     updateTraining,
     deleteTraining,
-    getTrainingByid
+    getTrainingByid,
+    createTrainingReview
 }

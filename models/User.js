@@ -67,7 +67,7 @@ userSchema.pre('save', async function(next){
 
   if(!this.isModified("password")){
     next()
-  }
+  }   
 
 
   const salt = await bcrypt.genSalt()
@@ -78,7 +78,7 @@ next();
 
 // jwt token
 userSchema.methods.getJWTToken = function(){
-  return jwt.sign({id:this._id}, 'JWT_SECRET',{
+  return jwt.sign({id:this._id}, process.env.TOKEN_SECRET,{
     expiresIn: '1d',
   })
 }

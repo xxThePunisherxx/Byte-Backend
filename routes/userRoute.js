@@ -5,7 +5,9 @@ const { registerUser, loginUser, logoutUser,
   getAllUser, 
   getSingleUser,
   updateUserRole,
-  deleteUser
+  deleteUser,
+  forgotPassword,
+  resetPassword
   // forgotPassword, resetPassword, updateProfile 
 } 
   = require('../controllers/userController.js');
@@ -31,15 +33,20 @@ router.get("/logout", logoutUser);
 
 router.get("/me",isAuthenticatedUser, getUserDetails);
 
-router.put("/password/update/:id",isAuthenticatedUser, updatePassword);
+router.put('/password/update/:id', isAuthenticatedUser, updatePassword)
+
+router.post('/password/forgot', forgotPassword)
+router.put('/password/reset/:token', resetPassword)
 
 // router.put("/me/update", isAuthenticatedUser, updateProfile);
 
 router.get("/admin/users", isAuthenticatedUser, authorizeRoles("admin"), getAllUser);
 
 router.get("/admin/user/:id", isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
+
 router.put('/role/:id', isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
-router.delete('/role/:id', isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+
+router.delete('/delete/:id', isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
 
 
 
