@@ -44,21 +44,6 @@ const TrainingSchema = new mongoose.Schema({
     default: ""
   },
 
-  // images:[{type:String}],
-
-  // images: [
-  //   {
-  //     public_id: {
-  //       type: String,
-  //       required: true,
-  //     },
-
-  //     url: {
-  //       type: String,
-  //       required: true,
-  //     },
-  //   },
-  // ],
 
   category: {
     type: mongoose.Schema.Types.ObjectId,

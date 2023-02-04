@@ -2,20 +2,86 @@ const Training = require('../models/Training.js');
 const ErrorHandler = require('../utils/errorHandler.js');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors.js');
 const Category = require('../models/Category.js');
+const multer = require('multer')
 // const ApiFeatures = require('../utils/apiFeatures.js')
+
+
+// const FILE_TYPE_MAP ={
+//     'image/png': 'png',
+//     'image/jpeg': 'jpeg',
+//     'image/jpg': 'jpg'
+
+// }
+
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb){
+//         const isValid = FILE_TYPE_MAP[file.mimetype]
+//         let uploadError = new ErrorHandler("Invalid image type")
+
+//         if(isValid){
+//             uploadError = null
+//         }
+//         cb(uploadError, 'public/uploads')
+//     },
+//     filename: function (req, file, cb){
+//         const fileName = file.originalname.split(' ').join('-');
+//         const extension = FILE_TYPE_MAP[file.mimetype]
+//         cb(null, `4{fileName}-${Date.now()}.${extension}`)
+//     }
+// })
+
+// const uploadOptions = multer({storage: storage})
+
 
 
 // create training -- admin
 const createTraining = catchAsyncErrors(
+  
+
+    // uploadOptions.single('image'),
 
     async(req, res, next)=>{
+        // for user
         req.body.user = req.user.id;
+
+        // for category
         const category = await Category.findById(req.body.category);
         if(!category)
         return res.status(400).json({success:false, category})
+        
 
-        const training = await Training.create(req.body);
+        // for file
+        // const file = req.file;
+        // if(!file)
+        // return res.status(400).json({success:false, file})
+
+
+        // const fileName = req.file.fileName
+        // const basePath = `${req.protocol}://${req.get('host')}/public/upload`;
+
+        // const training = await Training.create(req.body);
+
+        console.log('hello')
+
+        let training = new Training({
+            title: req.body.title,
+            description: req.body.description,
+            career: req.body.career,
+            syllabus: req.body.syllabus,
+            duration: req.body.duration,
+            priority: req.body.priority,
+            // image: `${basePath}${fileName}`,// "http://localhost:8080/public/uploads/image-1212"
+            category: req.body.category,
+            ratings: req.body.ratings,
+            numOfReviews: req.body.numOfReviews,
+            reviews: req.body.reviews,
+            user: req.body.user,
+        })
+
+      await training.save()
+
         res.status(201).json({training})
+        
     }
 )
 
