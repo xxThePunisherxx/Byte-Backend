@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
 
 // database connection
-mongoose.set('strictQuery', true)
+
 const db = "mongodb+srv://admin111:admin111@cluster0.nwjdauv.mongodb.net/?retryWrites=true&w=majority"
 
 
