@@ -8,17 +8,11 @@ const bcrypt = require('bcryptjs')
 const sendEmail = require('../utils/sendEmail.js')
 const crypto = require('crypto')
 
-// // register user
+// register user
 const registerUser = catchAsyncErrors(
     async(req,res)=>{
-    const {name,email,password} = req.body;
-
-    const user = await User.create({name,email,password,
-    avatar:{
-        public_id:'This is sample pic',
-        url:'profile pic'
-    }
-    })
+      let body = req.body
+    const user = await User.create(body)
 
 // Calling the token
 sendToken(user, 201, res)

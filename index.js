@@ -6,15 +6,20 @@ const cors = require('cors')
 require('dotenv').config();
 
 
+
 const trainingRoute = require('./routes/trainingRoute.js')
 const categoryRoute = require('./routes/categoryRoute.js')
 const userRoute = require('./routes/userRoute.js')
 
-const errorMiddleware = require('./middleware/error.js')
+
+const errorMiddleware = require('./middleware/error.js');
+const fileUploadRouter = require('./routes/uploadRoute.js');
+
 
 const PORT = process.env.PORT || 8080
 
 const app = express()
+app.use(express.static("./public"));
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 app.use(cookieParser());
@@ -48,6 +53,7 @@ app.get('/', (req,res)=>{
 app.use('/api/training', trainingRoute)
 app.use('/api/category', categoryRoute)
 app.use('/api/user', userRoute)
+app.use('/api/file', fileUploadRouter)
 
 
 // middleware

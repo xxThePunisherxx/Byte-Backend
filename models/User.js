@@ -31,17 +31,10 @@ const userSchema = new mongoose.Schema({
     
 
 
-      avatar:
-        {        public_id:{
-                     type:String,
-                     
-                    },
-
-                  url:{
-                     type:String,
-                     
-                   }
-       },
+      avatar:{
+        type:String
+      },
+      
 
        role:{
         type:String,
