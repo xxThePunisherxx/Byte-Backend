@@ -5,7 +5,8 @@ const createFile = (req, res) => {
   //for single file there is req.file in {}
   //for multiple file there is req.files in [{},{}]
   // req.file will be undefined fro req.multiple
-  // console.log("**********8", req.file);
+
+  console.log("**********", req.file);
   if (req.file) {
     //   ************for single file
     // here file information is given in req.file
@@ -24,7 +25,7 @@ const createFile = (req, res) => {
   } else {
     let paths = req.files.map((file) => {
       let fileName = file.filename;
-      let path = `localhost:${port}/${fileName}`;
+      let path = `http://localhost:${port}/${fileName}`;
       return { path: path };
     });
     let successJson = {
