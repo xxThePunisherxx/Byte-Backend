@@ -8,7 +8,7 @@ let limit = {
 };
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public");
+    cb(null, "./public/upload");
     //vvvimp  ./means root (main) folder
     // note you must make public and files folder manually other it will through (error) no such file or directory
   },

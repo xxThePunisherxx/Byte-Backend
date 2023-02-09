@@ -12,7 +12,6 @@ router.get('/', getAllTraining)
 router.get('/:id', getTrainingByid)
 router.put('/update/:id', isAuthenticatedUser, updateTraining)
 router.delete('/delete/:id',isAuthenticatedUser ,deleteTraining)
-
 router.put('/review', isAuthenticatedUser, createTrainingReview)
 
 module.exports = router

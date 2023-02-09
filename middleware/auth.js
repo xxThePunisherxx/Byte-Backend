@@ -5,8 +5,14 @@ const User = require('../models/User.js')
 
 
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
-  const  token  = req.headers.authorization;
-// console.log(token)
+  const  bearerToken  = req.headers.authorization;
+
+  let bearerTokenArray = bearerToken.split(" ")
+  let token = bearerTokenArray[1]
+  console.log("**********")
+  console.log(token)
+  // const {token} = req.cookies;
+
   if (!token) {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }
@@ -18,7 +24,7 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     next();
   });
 
-// console.log(decodedData)
+
 });
 
 
