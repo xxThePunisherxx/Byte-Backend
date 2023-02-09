@@ -9,8 +9,8 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
   let bearerTokenArray = bearerToken.split(" ")
   let token = bearerTokenArray[1]
-  console.log("**********")
-  console.log(token)
+  // console.log("**********")
+  // console.log(token)
   // const {token} = req.cookies;
 
   if (!token) {

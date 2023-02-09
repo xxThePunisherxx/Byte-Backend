@@ -5,7 +5,7 @@ const createFile = (req, res) => {
   //for single file there is req.file in {}
   //for multiple file there is req.files in [{},{}]
   // req.file will be undefined fro req.multiple
-  console.log("**********8", req.file);
+  // console.log("**********8", req.file);
   if (req.file) {
     //   ************for single file
     // here file information is given in req.file

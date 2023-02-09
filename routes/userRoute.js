@@ -21,7 +21,7 @@ const router = express.Router();
 
 
 
-router.post('/register', registerUser)
+router.post('/register', isAuthenticatedUser, authorizeRoles("superAdmin") , registerUser)
 
 router.post('/login', loginUser)
 
@@ -40,13 +40,13 @@ router.put('/password/reset/:token', resetPassword)
 
 // router.put("/me/update", isAuthenticatedUser, updateProfile);
 
-router.get("/superadmin/users", isAuthenticatedUser, authorizeRoles("admin"), getAllUser);
+router.get("/admin/users", isAuthenticatedUser, authorizeRoles("superAdmin"), getAllUser);
 
-router.get("/superadmin/user/:id", isAuthenticatedUser, authorizeRoles("admin"), getSingleUser)
+router.get("/admin/user/:id", isAuthenticatedUser, authorizeRoles("superAdmin"), getSingleUser)
 
 router.put('/role/:id', isAuthenticatedUser, authorizeRoles("admin"), updateUserRole)
 
-router.delete('/delete/:id', isAuthenticatedUser, authorizeRoles("admin"), deleteUser);
+router.delete('/delete/:id', isAuthenticatedUser, authorizeRoles("superAdmin"), deleteUser);
 
 
 
