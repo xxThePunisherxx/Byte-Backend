@@ -4,7 +4,7 @@
   "description": "In the project directory, you can run:",
   "main": "index.js",
   "scripts": {
-   
+   "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
