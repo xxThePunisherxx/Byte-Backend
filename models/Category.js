@@ -6,7 +6,7 @@ const CategorySchema = new mongoose.Schema({
         
 //     },
 
-    courseType:{
+    course_type:{
         type:String,
         required:true,
     }
