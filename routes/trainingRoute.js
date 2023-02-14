@@ -7,11 +7,11 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth.js')
 const router = express.Router();
 
 
-router.post('/add', isAuthenticatedUser, createTraining)
-router.get('/', getAllTraining)
-router.get('/:id', getTrainingByid)
-router.put('/update/:id', isAuthenticatedUser, updateTraining)
-router.delete('/delete/:id',isAuthenticatedUser ,deleteTraining)
+router.post('/add', isAuthenticatedUser, authorizeRoles("superAdmin", "admin"), createTraining)
+router.get('/', authorizeRoles("superAdmin", "admin"), getAllTraining)
+router.get('/:id', authorizeRoles("superAdmin", "admin"), getTrainingByid)
+router.put('/update/:id', isAuthenticatedUser, authorizeRoles("superAdmin", "admin"), updateTraining)
+router.delete('/delete/:id',isAuthenticatedUser, authorizeRoles("superAdmin", "admin"), deleteTraining)
 router.put('/review', isAuthenticatedUser, createTrainingReview)
 
 module.exports = router
