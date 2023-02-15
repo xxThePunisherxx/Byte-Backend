@@ -1,101 +1,86 @@
-const mongoose = require('mongoose')
-const validator = require('validator')
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, "Please enter your name"],
+    maxLength: [30, "Name cannot excced more than 30"],
+    minLength: [3, "Name cannot excced less than 6"],
+  },
 
-    name: {
-        type: String,
-        required: [true, "Please enter your name"],
-        maxLength:[30, "Name cannot excced more than 30"],
-        minLength:[3, "Name cannot excced less than 6"]
-      },
+  email: {
+    type: String,
+    required: [true, "Email is Required"],
+    unique: true,
+    validate: [validator.isEmail, "Please enter a valid email"], //custom validate for email
+  },
 
-      email:{
-        type:String,
-        required:[true, "Email is Required"],
-        unique:true,
-        validate: [validator.isEmail,"Please enter a valid email"] //custom validate for email
-      },
+  password: {
+    type: String,
+    unique: true,
+    required: [true, "Please enter your password"],
+    minLength: [6, "Password should be at least 6 characters long"],
+    select: false,
+  },
 
+  avatar: {
+    type: String,
+  },
 
-      password:{
-        type:String,
-        unique:true,
-        required: [true, "Please enter your password"], 
-        minLength:[6, "Password should be at least 6 characters long"],
-        select:false
-      },
-    
+  role: {
+    type: String,
+    enum: ["superAdmin", "admin"],
+    default: "admin",
+  },
 
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
 
-      avatar:{
-        type:String
-      },
-      
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-       role:{
-        type:String,
-        enum:["superAdmin", "admin"],
-        default:"admin"
-       },
-     
-       resetPasswordToken: String,
-       resetPasswordExpire:Date,
-
-        createdAt:{
-            type:Date,
-            default:Date.now
-        }
-      
-
-})
-
-
-// password encryption runs before data in database          
+// password encryption runs before data in database
 
 //note we cant use {this} at arrow or callback function   but we can use at normal function
-userSchema.pre('save', async function(next){
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    next();
+  }
 
-  if(!this.isModified("password")){
-    next()
-  }   
-
-  const salt = await bcrypt.genSalt()
- this.password = await bcrypt.hash(this.password, salt);
- next();
-})
-
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
 
 // jwt token
-userSchema.methods.getJWTToken = function(){
-  return jwt.sign({id:this._id}, process.env.TOKEN_SECRET,{
-    expiresIn: '1d',
-  })
-}
-
-
-
+userSchema.methods.getJWTToken = function () {
+  return jwt.sign({ id: this._id }, process.env.TOKEN_SECRET, {
+    expiresIn: "1d",
+  });
+};
 
 // generating password reset token
-userSchema.methods.getResetPasswordToken = function(){
-
+userSchema.methods.getResetPasswordToken = function () {
   // generating token
   const resetToken = crypto.randomBytes(20).toString("hex");
 
   // hashing and resetPasswordToekn to userschema
   this.resetPasswordToken = crypto
-  .createHash("sha256")
-  .update(resetToken)
-  .digest("hex");
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
 
   this.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
-  return resetToken
-}
+  return resetToken;
+};
 
-
-const User = new mongoose.model('User', userSchema)
-module.exports = User
+const User = new mongoose.model("User", userSchema);
+module.exports = User;
