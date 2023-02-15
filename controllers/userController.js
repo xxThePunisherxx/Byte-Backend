@@ -197,7 +197,7 @@ const updateUserRole = catchAsyncErrors(async (req, res, next) => {
     role: req.body.role,
   };
 
-  await User.findByIdAndUpdate(req.params.id, newUserData, {
+  const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
@@ -205,6 +205,7 @@ const updateUserRole = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    user,
   });
 });
 

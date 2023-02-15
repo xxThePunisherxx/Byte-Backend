@@ -1,4 +1,3 @@
+const port = process.env.PORT;
 
-const port = process.env.PORT
-
-module.exports = port
+module.exports = port;

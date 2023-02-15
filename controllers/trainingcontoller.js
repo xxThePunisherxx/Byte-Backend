@@ -5,11 +5,6 @@ const Category = require("../models/Category.js");
 
 // create training -- admin
 const createTraining = catchAsyncErrors(async (req, res, next) => {
-  // for user
-  // req.body.user = req.user.id;
-  // let user = req.userId;
-
-  console.log("aaaaaaaaaaaaaaaaaaa", req.user);
   let user = req.user;
   let userId = user._id;
 
