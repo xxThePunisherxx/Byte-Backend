@@ -8,12 +8,11 @@ const Category = require('../models/Category.js');
 
 // create training -- admin
 const createTraining = catchAsyncErrors(
-  
-
     async(req, res, next)=>{
         // for user
         req.body.user = req.user.id;
-
+           
+        
         // for category
         const category = await Category.findById(req.body.category);
         if(!category)
@@ -37,8 +36,7 @@ const createTraining = catchAsyncErrors(
         })
 
       await training.save()
-
-        res.status(201).json({training})
+      res.status(201).json({training})
         
     }
 )

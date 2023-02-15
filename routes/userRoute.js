@@ -40,13 +40,13 @@ router.put('/password/reset/:token', resetPassword)
 
 // router.put("/me/update", isAuthenticatedUser, updateProfile);
 
-router.get("/admin/users", isAuthenticatedUser, authorizeRoles("superAdmin", "admin"), getAllUser);
+router.get("/admin/users", isAuthenticatedUser, getAllUser);
 
-router.get("/admin/user/:id", isAuthenticatedUser, authorizeRoles("superAdmin"), getSingleUser)
+router.get("/admin/user/:id", isAuthenticatedUser, getSingleUser)
 
-router.put('/role/:id', isAuthenticatedUser, authorizeRoles("superadmin", "admin"), updateUserRole)
+router.put('/role/:id', isAuthenticatedUser, updateUserRole)
 
-router.delete('/delete/:id', isAuthenticatedUser, authorizeRoles("superAdmin", "admin"), deleteUser);
+router.delete('/delete/:id', isAuthenticatedUser, deleteUser);
 
 
 

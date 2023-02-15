@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs')
 const sendEmail = require('../utils/sendEmail.js')
 const crypto = require('crypto')
 
+
 // register user
 const registerUser = catchAsyncErrors(
     async(req,res)=>{
@@ -30,7 +31,7 @@ const loginUser = catchAsyncErrors(async(req,res,next)=>{
         return next(new ErrorHandler("Please enter email and password", 400))
     }
 
-    const user = await User.findOne({email}).select("password");
+    const user = await User.findOne({email}).select("+password");
     if(!user){
         return next(new ErrorHandler("Invalid email or password", 401))
     }
@@ -142,7 +143,6 @@ sendToken(savedUser, 201, res )
   // Get User Detail
 const getUserDetails = catchAsyncErrors(async (req, res, next) => {
     const user = await User.findById(req.user.id);
-  
     res.status(200).json({
       success: true,
       user,
@@ -178,7 +178,6 @@ const updatePassword = catchAsyncErrors(async (req, res, next) => {
 //   // Get all users(admin)
 const getAllUser = catchAsyncErrors(async (req, res, next) => {
     const users = await User.find();
-  
     res.status(200).json({
       success: true,
       users,

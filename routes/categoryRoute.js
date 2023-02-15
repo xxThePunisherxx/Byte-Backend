@@ -6,9 +6,9 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middleware/auth.js')
 
 const router = Router()
 
-router.post('/add', isAuthenticatedUser,authorizeRoles("superAdmin", "admin") ,createCategory)
-router.get('/',authorizeRoles("superAdmin", "admin"),  getAllCategory)
-router.get('/:id', authorizeRoles("superAdmin", "admin"), getCategoryByid)
+router.post('/add', isAuthenticatedUser, createCategory)
+router.get('/',isAuthenticatedUser,  getAllCategory)
+router.get('/:id', isAuthenticatedUser, getCategoryByid)
 router.put('/update/:id',authorizeRoles("superAdmin", "admin"),  updateCategory)
 router.delete('/delete/:id',authorizeRoles("superAdmin", "admin"), deleteCategory)
 
