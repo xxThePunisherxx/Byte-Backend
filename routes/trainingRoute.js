@@ -21,8 +21,8 @@ router.post(
   authorizeRoles("superAdmin", "admin"),
   createTraining
 );
-router.get("/", isAuthenticatedUser, getAllTraining);
-router.get("/:id", isAuthenticatedUser, getTrainingByid);
+router.get("/", getAllTraining);
+router.get("/:id", getTrainingByid);
 router.put(
   "/update/:id",
   isAuthenticatedUser,

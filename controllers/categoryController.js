@@ -44,8 +44,8 @@ const updateCategory = catchAsyncErrors(async (req, res, next) => {
 
 //delete category
 const deleteCategory = catchAsyncErrors(async (req, res, next) => {
-  console.log("*************************************************");
-  let category = Category.findById(req.params.id);
+  // console.log("*************************************************");
+  let category = await Category.findById(req.params.id);
 
   if (!category) {
     return next(new ErrorHandler("Category not found", 404));

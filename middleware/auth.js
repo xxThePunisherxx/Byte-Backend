@@ -10,7 +10,6 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   let token = bearerTokenArray[1];
 
   // console.log("***************",token)
-
   // console.log("**********")
   // console.log(token)
   // const {token} = req.cookies;
@@ -19,14 +18,15 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Please Login to access this resource", 401));
   }
 
-  jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
-    console.log(decoded);
+  // jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
+  //   console.log(decoded);
 
-    let user = await User.findById(decoded.id);
-
-    req.user = user;
-    next();
-  });
+  //   let user = await User.findById(decoded.id);
+  //   req.user = user;
+  // });
+  const decodedData = jwt.verify(token, process.env.TOKEN_SECRET);
+  req.user = await User.findById(decodedData.id);
+  next();
 });
 
 exports.authorizeRoles = (...roles) => {
