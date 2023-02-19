@@ -22,17 +22,17 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
 
   // checking if user has given password and email both
   if (!email || !password) {
-    return next(new ErrorHandler("Please enter email and password", 400));
+    return next(ErrorHandler("Please enter email and password", 400));
   }
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    return next(new ErrorHandler("Invalid email or password", 401));
+    return next(ErrorHandler("Invalid email or password", 401));
   }
 
   const isPasswordMatched = await bcrypt.compare(password, user.password);
   if (!isPasswordMatched) {
-    return next(new ErrorHandler("Invalid email or password", 401));
+    return next(ErrorHandler("Invalid email or password", 401));
   }
   sendToken(user, 200, res);
 });
@@ -56,7 +56,7 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   console.log(user);
 
   if (!user) {
-    return next(new ErrorHandler("User not found", 404));
+    return next(ErrorHandler("User not found", 404));
   }
 
   // Get reset Password token
@@ -88,7 +88,7 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     user.resetPasswordExpire = undefined;
 
     await user.save({ validateBeforeSave: false });
-    return next(new ErrorHandler(error.message, 500));
+    return next(ErrorHandler(error.message, 500));
   }
 });
 
@@ -108,15 +108,12 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new ErrorHandler(
-        "Reset Password Token is invalid or has been expired",
-        404
-      )
+      ErrorHandler("Reset Password Token is invalid or has been expired", 404)
     );
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(new ErrorHandler("Password does not updated", 400));
+    return next(ErrorHandler("Password does not updated", 400));
   }
 
   user.password = req.body.password;
@@ -150,11 +147,11 @@ const updatePassword = catchAsyncErrors(async (req, res, next) => {
   );
 
   if (!isPasswordMatched) {
-    return next(new ErrorHandler("Old password is incorrect", 400));
+    return next(ErrorHandler("Old password is incorrect", 400));
   }
 
   if (req.body.newPassword !== req.body.confirmPassword) {
-    return next(new ErrorHandler("password does not match", 400));
+    return next(ErrorHandler("password does not match", 400));
   }
 
   user.password = req.body.newPassword;
@@ -178,9 +175,7 @@ const getSingleUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
-    return next(
-      new ErrorHandler(`User does not exist with Id: ${req.params.id}`)
-    );
+    return next(ErrorHandler(`User does not exist with Id: ${req.params.id}`));
   }
 
   res.status(200).json({
@@ -209,7 +204,7 @@ const deleteUser = catchAsyncErrors(async (req, res, next) => {
   User.findByIdAndDelete(req.params.id, function (err, user) {
     if (err) {
       return next(
-        new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
+        ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
       );
     } else {
       res.status(200).json({

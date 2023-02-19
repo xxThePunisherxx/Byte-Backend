@@ -22,7 +22,7 @@ const getAllCategory = catchAsyncErrors(async (req, res) => {
 // get category by id
 const getCategoryByid = catchAsyncErrors(async (req, res, next) => {
   const categorys = await Category.findById(req.params.id);
-  if (!categorys) return next(new ErrorHandler("Category not found", 404));
+  if (!categorys) return next(ErrorHandler("Category not found", 404));
 
   res.status(201).json({ success: true, categorys });
 });
@@ -32,7 +32,7 @@ const updateCategory = catchAsyncErrors(async (req, res, next) => {
   let category = Category.findById(req.params.id);
 
   if (!category) {
-    return next(new ErrorHandler("Category cannot be updated", 404));
+    return next(ErrorHandler("Category cannot be updated", 404));
   }
   category = await Category.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -48,7 +48,7 @@ const deleteCategory = catchAsyncErrors(async (req, res, next) => {
   let category = await Category.findById(req.params.id);
 
   if (!category) {
-    return next(new ErrorHandler("Category not found", 404));
+    return next(ErrorHandler("Category not found", 404));
   }
   category = await Category.findByIdAndRemove(req.params.id, req.body);
 

@@ -47,7 +47,7 @@ const getTrainingByid = catchAsyncErrors(async (req, res, next) => {
     path: "category",
   });
 
-  if (!trainings) return next(new ErrorHandler("training not found", 404));
+  if (!trainings) return next(ErrorHandler("training not found", 404));
 
   res.status(201).json({ trainings });
 });
@@ -57,7 +57,7 @@ const updateTraining = catchAsyncErrors(async (req, res, next) => {
   let training = Training.findById(req.params.id);
 
   if (!training) {
-    return next(new ErrorHandler("training cannot be updated", 404));
+    return next(ErrorHandler("training cannot be updated", 404));
   }
   training = await Training.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -73,7 +73,7 @@ const deleteTraining = catchAsyncErrors(async (req, res, next) => {
   let training = Training.findById(req.params.id);
 
   if (!training) {
-    return next(new ErrorHandler("training not found", 404));
+    return next(ErrorHandler("training not found", 404));
   }
   training = await Training.findByIdAndRemove(req.params.id, req.body);
 
