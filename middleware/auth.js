@@ -15,7 +15,10 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
   // const {token} = req.cookies;
 
   if (!token) {
-    return next(ErrorHandler("Please Login to access this resource", 401));
+    let error = new Error("Please Login to access this resource")
+    error.statusCode = 401
+    throw error
+    
   }
 
   // jwt.verify(token, process.env.TOKEN_SECRET, async (err, decoded) => {
@@ -32,12 +35,10 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(
-        ErrorHandler(
-          `Role: ${req.user.role} is not allowed to access this resouce `,
-          403
-        )
-      );
+      let error = new Error(`Role: ${req.user.role} is not allowed to access this resources`)
+      error.statusCode = 403
+      throw error
+ 
     }
 
     next();

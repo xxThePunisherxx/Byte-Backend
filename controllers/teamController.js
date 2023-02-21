@@ -27,7 +27,12 @@ const getTeam = catchAsyncErrors(async (req, res) => {
 const getTeamById = catchAsyncErrors(async (req, res, next) => {
   const team = await Team.findById(req.params.id);
 
-  if (!team) return next(ErrorHandler("not found", 404));
+  if (!team) {
+    let error = new Error("Team not found.")
+    error.statusCode = 404
+    throw error
+  }
+  
   res.status(201).json({ team });
 });
 
@@ -36,7 +41,10 @@ const updateTeam = catchAsyncErrors(async (req, res, next) => {
   let team = Team.findById(req.params.id);
 
   if (!team) {
-    return next(ErrorHandler("cannot be update", 404));
+    let error = new Error("Team unable to update.")
+    error.statusCode = 404
+    throw error
+   
   }
   team = await Team.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -50,7 +58,10 @@ const deleteTeam = catchAsyncErrors(async (req, res, next) => {
   let team = Team.findById(req.params.id);
 
   if (!team) {
-    return next(ErrorHandler("team not found", 404));
+    let error = new Error("Team not found.")
+    error.statusCode = 404
+    throw error
+
   }
   team = await Team.findByIdAndRemove(req.params.id, req.body);
   res.status(201).json({ message: "training deleted successfully" });

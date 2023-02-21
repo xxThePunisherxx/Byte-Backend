@@ -22,17 +22,26 @@ const loginUser = catchAsyncErrors(async (req, res, next) => {
 
   // checking if user has given password and email both
   if (!email || !password) {
-    return next(ErrorHandler("Please enter email and password", 400));
+    let error = new Error("Please enter email and password.")
+    error.statusCode = 400
+    throw error
+    
   }
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
-    return next(ErrorHandler("Invalid email or password", 401));
+    let error = new Error("Invalid email or password.")
+    error.statusCode = 401
+    throw error
+   
   }
 
   const isPasswordMatched = await bcrypt.compare(password, user.password);
   if (!isPasswordMatched) {
-    return next(ErrorHandler("Invalid email or password", 401));
+    let error = new Error("Invalid email or password.")
+    error.statusCode = 401
+    throw error
+    
   }
   sendToken(user, 200, res);
 });
@@ -56,7 +65,9 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   console.log(user);
 
   if (!user) {
-    return next(ErrorHandler("User not found", 404));
+    let error = new Error("User not found.")
+    error.statusCode = 404
+    throw error
   }
 
   // Get reset Password token
@@ -107,13 +118,17 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(
-      ErrorHandler("Reset Password Token is invalid or has been expired", 404)
-    );
+    let error = new Error("Reset Password Token is invalid or has been expired")
+    error.statusCode = 400
+    throw error
+   
   }
 
   if (req.body.password !== req.body.confirmPassword) {
-    return next(ErrorHandler("Password does not updated", 400));
+    let error = new Error("Unable to update the password.")
+    error.statusCode = 400
+    throw error
+
   }
 
   user.password = req.body.password;
@@ -147,11 +162,17 @@ const updatePassword = catchAsyncErrors(async (req, res, next) => {
   );
 
   if (!isPasswordMatched) {
-    return next(ErrorHandler("Old password is incorrect", 400));
+    let error = new Error("Old password is incorrect")
+    error.statusCode = 400
+    throw error
+   
   }
 
   if (req.body.newPassword !== req.body.confirmPassword) {
-    return next(ErrorHandler("password does not match", 400));
+    let error = new Error("Password doesnot match")
+    error.statusCode = 400
+    throw error
+ 
   }
 
   user.password = req.body.newPassword;
@@ -175,7 +196,10 @@ const getSingleUser = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
-    return next(ErrorHandler(`User does not exist with Id: ${req.params.id}`));
+    let error = new Error(`User doesnot exist with ID:${req.params.id}`)
+    error.statusCode = 404
+    throw error
+   
   }
 
   res.status(200).json({
@@ -203,9 +227,10 @@ const updateUserRole = catchAsyncErrors(async (req, res, next) => {
 const deleteUser = catchAsyncErrors(async (req, res, next) => {
   User.findByIdAndDelete(req.params.id, function (err, user) {
     if (err) {
-      return next(
-        ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
-      );
+      let error = new Error(`User does not exist with Id: ${req.params.id}`)
+      error.statusCode = 400
+      throw error
+     
     } else {
       res.status(200).json({
         success: true,

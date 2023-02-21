@@ -47,7 +47,11 @@ const getTrainingByid = catchAsyncErrors(async (req, res, next) => {
     path: "category",
   });
 
-  if (!trainings) return next(ErrorHandler("training not found", 404));
+  if (!trainings){
+    let error = new Error("Training not found.")
+    error.statusCode = 404
+    throw error
+  } 
 
   res.status(201).json({ trainings });
 });
@@ -57,7 +61,10 @@ const updateTraining = catchAsyncErrors(async (req, res, next) => {
   let training = Training.findById(req.params.id);
 
   if (!training) {
-    return next(ErrorHandler("training cannot be updated", 404));
+    let error = new Error("Unable to update Training.")
+    error.statusCode = 404
+    throw error
+  
   }
   training = await Training.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -73,7 +80,10 @@ const deleteTraining = catchAsyncErrors(async (req, res, next) => {
   let training = Training.findById(req.params.id);
 
   if (!training) {
-    return next(ErrorHandler("training not found", 404));
+    let error = new Error("Training not found.")
+    error.statusCode = 404
+    throw error
+    
   }
   training = await Training.findByIdAndRemove(req.params.id, req.body);
 

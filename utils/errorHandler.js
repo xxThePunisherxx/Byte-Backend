@@ -19,7 +19,16 @@ let ErrorHandler = (error, req, res, next) => {
   if (error.code === 11000) {
     status = 400;
     message = `Duplicate key error`;
-  } else {
+  } else if(err.name === "TokenExpiredError"){
+status = 401;
+message = `Json Web Token is Expired, Try again `
+  }
+
+  else if(err.name === "JsonWebTokenError"){
+status = 401;
+message = `Json Web Token is Expired, Try again `
+  }
+  else {
     message = error.message || "Internal server error";
     status = error.statusCode || 500;
   }

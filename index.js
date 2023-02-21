@@ -14,6 +14,7 @@ const testimonialRoute = require("./routes/testimonialRoute.js");
 // Cannot find module '../utils/errorhandler.js'
 const errorMiddleware = require("./middleware/error.js");
 const fileUploadRouter = require("./routes/uploadRoute.js");
+const ErrorHandler = require("./utils/errorHandler.js");
 
 const PORT = process.env.PORT || 8080;
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(ErrorHandler)
 
 // database connection
 
