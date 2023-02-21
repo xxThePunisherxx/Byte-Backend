@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const TestinomialSchema = new mongoose.Schema({
+const TestimonialSchema = new mongoose.Schema({
   // schema
   name: {
     type: String,
@@ -23,5 +23,5 @@ const TestinomialSchema = new mongoose.Schema({
   },
 });
 
-const Testinomial = new mongoose.model("Testinomial", TestinomialSchema);
-module.exports = Testinomial;
+const Testimonial = new mongoose.model("Testimonial", TestimonialSchema);
+module.exports = Testimonial;

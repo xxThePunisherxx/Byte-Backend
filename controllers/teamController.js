@@ -4,16 +4,14 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors.js");
 
 // create Team -- admin
 const createTeam = catchAsyncErrors(async (req, res, next) => {
-  let user = req.user;
-  let userId = user._id;
 
   let team = new Team({
-    name: req.body.title,
+    name: req.body.name,
     image: req.body.image,
     position: req.body.position,
     socialPlatform: req.body.socialPlatform,
     email: req.body.email,
-    user: userId,
+    
   });
   await team.save();
   res.status(201).json({ team });
