@@ -13,7 +13,9 @@ const createFile = (req, res) => {
     //where as other text information is given in req.body
     // let pathArray = req.file.path.split("\\"); //vvimp to split with \  use \\
     let fileName = req.file.filename;
-    let path = { path: `http://localhost:${port}/${fileName}` };
+    // let path = { path: `http://localhost:${port}/${fileName}` };
+    let path = { path: `https://learning-management-system-kx6y.onrender.com/${fileName}` };
+
     let successJson = {
       status: "success",
       message: "File uploaded successfully.",
