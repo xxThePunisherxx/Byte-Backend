@@ -10,6 +10,7 @@ const categoryRoute = require("./routes/categoryRoute.js");
 const userRoute = require("./routes/userRoute.js");
 const teamRoute = require("./routes/teamRoute.js");
 const testimonialRoute = require("./routes/testimonialRoute.js");
+const studentProjectRoute = require("./routes/studentProjectRoute.js");
 
 // Cannot find module '../utils/errorhandler.js'
 // const errorMiddleware = require("./middleware/error.js");
@@ -25,7 +26,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-
 
 // database connection
 
@@ -58,6 +58,7 @@ app.use("/api/user", userRoute);
 app.use("/api/file", fileUploadRouter);
 app.use("/api/team", teamRoute);
 app.use("/api/testimonial", testimonialRoute);
+app.use("/api/studentProject", studentProjectRoute);
 
 // middleware
 app.use(ErrorHandler);
