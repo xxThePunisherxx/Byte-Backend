@@ -58,7 +58,7 @@ app.use("/api/user", userRoute);
 app.use("/api/file", fileUploadRouter);
 app.use("/api/team", teamRoute);
 app.use("/api/testimonial", testimonialRoute);
-app.use("/api/studentProject", studentProjectRoute);
+app.use("/api/project", studentProjectRoute);
 
 // middleware
 app.use(ErrorHandler);
