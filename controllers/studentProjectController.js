@@ -6,9 +6,9 @@ const ErrorHandler = require("../utils/errorHandler.js");
 const createStudentProject = catchAsyncErrors(async (req, res, next) => {
   const studentProject = new StudentProject({
     title: req.body.title,
+    name: req.body.name,
     description: req.body.description,
-    duration: req.body.duration,
-    ratings: req.body.ratings,
+    githubLink: req.body.githubLink,
     image: req.body.image,
   });
 
