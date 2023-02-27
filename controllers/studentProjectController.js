@@ -1,5 +1,6 @@
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const StudentProject = require("../models/studentProject");
+const ErrorHandler = require("../utils/errorHandler.js");
 
 // create student Project -- admin
 const createStudentProject = catchAsyncErrors(async (req, res, next) => {

@@ -11,6 +11,8 @@ const userRoute = require("./routes/userRoute.js");
 const teamRoute = require("./routes/teamRoute.js");
 const testimonialRoute = require("./routes/testimonialRoute.js");
 const studentProjectRoute = require("./routes/studentProjectRoute.js");
+const registerFormRoute = require("./routes/registerFormRoute");
+const partnerRouter = require("./routes/partnerRoute.js");
 
 // Cannot find module '../utils/errorhandler.js'
 // const errorMiddleware = require("./middleware/error.js");
@@ -59,6 +61,8 @@ app.use("/api/file", fileUploadRouter);
 app.use("/api/team", teamRoute);
 app.use("/api/testimonial", testimonialRoute);
 app.use("/api/project", studentProjectRoute);
+app.use("/api/form", registerFormRoute);
+app.use("/api/partner", partnerRouter);
 
 // middleware
 app.use(ErrorHandler);
