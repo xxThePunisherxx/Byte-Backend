@@ -10,6 +10,12 @@ const studentProjectSchema = new mongoose.Schema(
       trim: true,
     },
 
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
     description: {
       type: String,
       required: [true, "Please enter the project's description"],
@@ -21,7 +27,7 @@ const studentProjectSchema = new mongoose.Schema(
       default: "",
     },
 
-    githublink: {
+    githubLink: {
       type: String,
     },
   },
