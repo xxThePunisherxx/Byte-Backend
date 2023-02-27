@@ -52,6 +52,7 @@ const updateStudentProject = catchAsyncErrors(async (req, res, next) => {
       useFindAndModify: false,
     }
   );
+  res.status(201).json({ success: true, studentProject });
 });
 
 // delete students projects -- admin
