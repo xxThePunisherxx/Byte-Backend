@@ -13,12 +13,7 @@ const studentProjectSchema = new mongoose.Schema(
     description: {
       type: String,
       required: [true, "Please enter the project's description"],
-      trim: true,
       maxLength: [500, "Character cannot exceed more than 500"],
-    },
-
-    duration: {
-      type: String,
     },
 
     image: {
@@ -26,9 +21,8 @@ const studentProjectSchema = new mongoose.Schema(
       default: "",
     },
 
-    ratings: {
-      type: Number,
-      default: 0,
+    githublink: {
+      type: String,
     },
   },
   { timestamps: true }
