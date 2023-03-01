@@ -1,8 +1,9 @@
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const RegisterForm = require("../models/RegisterForm");
+const sendEmail = require("../utils/sendEmail");
 
 // create
-// need to sent mail after enrol into course.
+// need to sent mail after enroll into course.
 const createRegisterForm = catchAsyncErrors(async (req, res, next) => {
   let registerForm = new RegisterForm({
     legalName: req.body.legalName,
@@ -11,8 +12,27 @@ const createRegisterForm = catchAsyncErrors(async (req, res, next) => {
     phoneNumber: req.body.phoneNumber,
     course: req.body.course,
   });
+
+  const registerUrl = `${req.protocol}://${req.get("host")}/api/form/add`;
+  console.log(registerUrl);
+  const message = "You have recieved an email";
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: `Register successful`,
+      message,
+    });
+    res.status(200).json({
+      success: true,
+      message: `Email sent successfully`,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
   await registerForm.save();
-  res.status(201).json({ registerForm });
+  // res.status(201).json({ sucess: true, message: "Email sent successfully" });
 });
 
 // get all

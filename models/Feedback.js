@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const registerFormSchema = new mongoose.Schema(
+const feedbackSchema = new mongoose.Schema(
   {
     // schema
     legalName: {
@@ -14,7 +14,7 @@ const registerFormSchema = new mongoose.Schema(
       required: true,
     },
 
-    academicLevel: {
+    message: {
       type: String,
       required: true,
     },
@@ -32,5 +32,5 @@ const registerFormSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const RegisterForm = new mongoose.model("RegisterForm", registerFormSchema);
-module.exports = RegisterForm;
+const Feedback = new mongoose.model("Feedback", feedbackSchema);
+module.exports = Feedback;
