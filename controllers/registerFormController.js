@@ -13,26 +13,8 @@ const createRegisterForm = catchAsyncErrors(async (req, res, next) => {
     course: req.body.course,
   });
 
-  const registerUrl = `${req.protocol}://${req.get("host")}/api/form/add`;
-  console.log(registerUrl);
-  const message = "You have recieved an email";
-
-  try {
-    await sendEmail({
-      email: user.email,
-      subject: `Register successful`,
-      message,
-    });
-    res.status(200).json({
-      success: true,
-      message: `Email sent successfully`,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
   await registerForm.save();
-  // res.status(201).json({ sucess: true, message: "Email sent successfully" });
+  res.status(201).json("Registration successful");
 });
 
 // get all

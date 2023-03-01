@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
 
 const registerFormSchema = new mongoose.Schema(
   {
@@ -12,6 +13,7 @@ const registerFormSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      validate: [validator.isEmail, "Please enter a valid email"],
     },
 
     academicLevel: {
