@@ -8,7 +8,8 @@ const {
 } = require("../controllers/feedbackController");
 
 const router = express.Router();
-router.post("/", createFeedback);
+
+router.post("/add", createFeedback);
 router.get("/", getAllFeedback);
 router.get("/:id", getFeedbackById);
 router.put("/update/:id", updateFeedback);

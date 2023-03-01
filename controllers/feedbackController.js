@@ -2,13 +2,12 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Feedback = require("../models/Feedback.js");
 
 // create
-const createFeedback = catchAsyncErrors(async (req, res) => {
+const createFeedback = catchAsyncErrors(async (req, res, next) => {
   let feedback = new Feedback({
     legalName: req.body.legalName,
     email: req.body.email,
     message: req.body.message,
     phoneNumber: req.body.phoneNumber,
-    course: req.body.course,
   });
   await feedback.save();
   res.status(201).json({ success: true, feedback });
@@ -57,7 +56,7 @@ const deleteFeedback = catchAsyncErrors(async (req, res, next) => {
     throw error;
   }
   feedback = await Feedback.findByIdAndRemove(req.params.id, req.body);
-  res.status(201).json({ message: "Form deleted successfully" });
+  res.status(201).json({ message: "Feedback deleted successfully" });
 });
 
 module.exports = {

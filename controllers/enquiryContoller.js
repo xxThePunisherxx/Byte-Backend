@@ -17,7 +17,7 @@ const createEnquiry = catchAsyncErrors(async (req, res, next) => {
 // get all
 const getAllEnquiry = catchAsyncErrors(async (req, res, next) => {
   const enquiry = await Enquiry.find();
-  res.status(201).json({ success: true, getAllEnquiry });
+  res.status(201).json({ success: true, enquiry });
 });
 
 // get by id
@@ -57,7 +57,7 @@ const deleteEnquiry = catchAsyncErrors(async (req, res, next) => {
     throw error;
   }
   enquiry = await Enquiry.findByIdAndRemove(req.params.id, req.body);
-  res.status(201).json({ message: "Form deleted successfully" });
+  res.status(201).json({ message: " Enquiry Form deleted successfully" });
 });
 
 module.exports = {

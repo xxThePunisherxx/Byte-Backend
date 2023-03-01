@@ -24,10 +24,6 @@ const feedbackSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    course: {
-      type: String,
-      required: true,
-    },
   },
   { timestamps: true }
 );
