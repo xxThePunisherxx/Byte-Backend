@@ -1,6 +1,8 @@
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const RegisterForm = require("../models/RegisterForm");
-const sendEmail = require("../utils/sendEmail");
+// const sendEmail = require("../utils/sendEmail");
+// const nodemailer = require("nodemailer");
+const { sendMail } = require("../utils/sendMail");
 
 // create
 // need to sent mail after enroll into course.
@@ -14,6 +16,17 @@ const createRegisterForm = catchAsyncErrors(async (req, res, next) => {
   });
 
   await registerForm.save();
+  // to: ["nitanthapa123@gmail.com", "sandeshbca5@arunima.edu.np"],
+
+  await sendMail({
+    from: `red Foo" <mailmailator@gmail.com>`,
+    // to: [req.body.email],
+    to: ["rupeshduwal17@gmail.com", "sandeshbca5@arunima.edu.np"],
+
+    subject: "Congratulations",
+    html: "<h1>Registration Successful<h1>",
+  });
+
   res.status(201).json("Registration successful");
 });
 
