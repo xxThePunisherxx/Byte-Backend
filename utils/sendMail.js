@@ -5,21 +5,22 @@
 //for this go to the => manage your account => security setting and=>enable 2-step verifiction =>crete app pssword (select other option)
 
 const nodemailer = require("nodemailer");
+const { host, mail, port, password } = require("../config/config");
 
 // the main thing in this file is trasporterInfo and mailInfo
 //neglet other part
 //transporterInof gives form info while mailInof gives to info
 let transporterInfo = {
-  host: process.env.SMPT_HOST,
+  host,
   // if from is gmail use gmail smtp
-  port: process.env.SMPT_PORT,
+  port,
   secure: false,
   //   auth user and pass play the role from
   auth: {
     // note user and pass most be genuine
     //it is the email through which email is send
-    user: process.env.SMPT_MAIL,
-    pass: process.env.SMPT_PASSWORD,
+    user: mail,
+    pass: password,
     //insted of using your password use app password of google
     //for this go to the => manage your account => security setting and=>enable 2-step verifiction =>crete app pssword (select other option)
   },

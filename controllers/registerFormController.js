@@ -2,7 +2,7 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const RegisterForm = require("../models/RegisterForm");
 // const sendEmail = require("../utils/sendEmail");
 // const nodemailer = require("nodemailer");
-const { sendMail } = require("../utils/sendMail");
+const sendMail = require("../utils/sendMail");
 
 // create
 // need to sent mail after enroll into course.
