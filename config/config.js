@@ -1,8 +1,9 @@
 const port = process.env.PORT;
-const service = process.env.SMPT_SERVICE;
-const mail = process.env.SMPT_MAIL;
-const password = process.env.SMPT_PASSWORD;
-const host = process.env.SMPT_HOST;
+const service = process.env.SMTP_SERVICE;
+const mail = process.env.SMTP_MAIL;
+const password = process.env.SMTP_PASSWORD;
+const host = process.env.SMTP_HOST;
+const smtpPort = process.env.SMTP_PORT;
 
 module.exports = {
   port,
@@ -10,4 +11,5 @@ module.exports = {
   mail,
   password,
   host,
+  smtpPort,
 };

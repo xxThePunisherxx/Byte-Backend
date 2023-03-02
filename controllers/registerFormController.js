@@ -1,3 +1,4 @@
+const { mail } = require("../config/config");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const RegisterForm = require("../models/RegisterForm");
 // const sendEmail = require("../utils/sendEmail");
@@ -19,7 +20,7 @@ const createRegisterForm = catchAsyncErrors(async (req, res, next) => {
   // to: ["nitanthapa123@gmail.com", "sandeshbca5@arunima.edu.np"],
 
   await sendMail({
-    from: `red Foo" <mailmailator@gmail.com>`,
+    from: `Byte <${mail}>`,
     // to: [req.body.email],
     to: ["rupeshduwal17@gmail.com", "sandeshbca5@arunima.edu.np"],
 
