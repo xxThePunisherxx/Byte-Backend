@@ -17,12 +17,11 @@ const createRegisterForm = catchAsyncErrors(async (req, res, next) => {
   });
 
   await registerForm.save();
-  // to: ["nitanthapa123@gmail.com", "sandeshbca5@arunima.edu.np"],
 
   await sendMail({
     from: `Byte <${mail}>`,
-    // to: [req.body.email],
-    to: ["rupeshduwal17@gmail.com", "sandeshbca5@arunima.edu.np"],
+    to: [req.body.email],
+    // to: ["rupeshduwal17@gmail.com", "sandeshbca5@arunima.edu.np"],
 
     subject: "Congratulations",
     html: "<h1>Registration Successful<h1>",
